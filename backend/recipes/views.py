@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
-
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -11,6 +11,7 @@ from .models import Tag, Ingredient, Recipe, RecipeIngredient, Favorite, \
 from .serializers import TagSerializer, IngredientSerializer, \
     RecipeListSerializer, RecipeCreateSerializer, FavoriteRecipeSerializer
 from .pagination import CustomPagination
+from .permissions import IsAuthorOrReadOnlyPermission
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -30,6 +31,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeListSerializer
     pagination_class = CustomPagination
+    permission_classes = (IsAuthorOrReadOnlyPermission,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ('tags',)
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):

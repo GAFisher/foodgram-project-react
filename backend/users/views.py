@@ -1,8 +1,7 @@
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
 
-
-from rest_framework import status
+from rest_framework import permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -14,7 +13,12 @@ from recipes.pagination import CustomPagination
 class CustomUserViewSet(UserViewSet):
     """Вьюсет для работы с пользователями."""
 
-    @action(detail=False, methods=['get'])
+    def get_permissions(self):
+        if self.action == 'me':
+            return (permissions.IsAuthenticated(),)
+        return super().get_permissions()
+
+    @action(detail=False, permission_classes=(permissions.IsAuthenticated, ))
     def subscriptions(self, request):
         """Метод для возвращения подпискок пользователя."""
         user = request.user
