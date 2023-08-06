@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
 from rest_framework import serializers
 from .models import (
-    User,
     Tag,
     Ingredient,
     Recipe,

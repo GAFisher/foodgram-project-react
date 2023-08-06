@@ -136,7 +136,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             for ingredient in recipe_ingredients:
                 ingredient_amount = ingredient.amount
                 ingredient_name = (
-                    f'{ingredient.ingredient.name}' 
+                    f'{ingredient.ingredient.name}'
                     f'({ingredient.ingredient.measurement_unit})'
                 )
                 if ingredient_name in ingredient_quantities:
