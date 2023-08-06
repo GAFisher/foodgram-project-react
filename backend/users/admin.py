@@ -16,4 +16,3 @@ class SubscriptionAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'author')
     search_fields = ('user__username', 'author__username',)
     empty_value_display = '-пусто-'
-

@@ -1,0 +1,5 @@
+migrations
+venv
+.git
+.idea
+.env
