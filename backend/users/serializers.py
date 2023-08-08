@@ -43,7 +43,7 @@ class ShortlistRecipeSerializer(serializers.ModelSerializer):
 class SubscriptionSerializer(UserSerializer):
     """Сериализатор для подписок пользователя."""
     is_subscribed = serializers.SerializerMethodField()
-    recipes = serializers.SerializerMethodField()
+    recipes = ShortlistRecipeSerializer(many=True)
     recipes_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -60,12 +60,6 @@ class SubscriptionSerializer(UserSerializer):
             return Subscription.objects.filter(user=user, author=obj).exists()
         return False
 
-    def get_recipes(self, obj):
-        """Метод для получения рецептов пользователя."""
-        recipes = obj.recipes.all()
-        serializer = ShortlistRecipeSerializer(recipes, many=True, context={
-            'request': self.context.get('request')})
-        return serializer.data
 
     def get_recipes_count(self, obj):
         """Метод для получения общего количества рецептов пользователя."""

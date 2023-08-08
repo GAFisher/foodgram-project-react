@@ -40,7 +40,6 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
 class RecipeViewSet(viewsets.ModelViewSet):
     """Вьюсет для работы с рецептами."""
-
     queryset = Recipe.objects.all()
     serializer_class = RecipeListSerializer
     pagination_class = CustomPagination

@@ -61,7 +61,8 @@ class RecipeListSerializer(serializers.ModelSerializer):
 
     tags = TagSerializer(many=True, read_only=True)
     author = CustomUserSerializer(read_only=True)
-    ingredients = serializers.SerializerMethodField()
+    ingredients = ShortlistIngredientSerializer(many=True,
+                                                source='recipe_ingredients')
     image = Base64ImageField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
@@ -80,14 +81,6 @@ class RecipeListSerializer(serializers.ModelSerializer):
             'text',
             'cooking_time',
         )
-
-    def get_ingredients(self, obj):
-        """Метод для получения списка ингредиентов."""
-        serializer = ShortlistIngredientSerializer(
-            RecipeIngredient.objects.filter(recipe=obj), many=True
-        )
-
-        return serializer.data
 
     def get_is_favorited(self, obj):
         """Метод для проверки на добавление рецепта в избранное."""
@@ -149,25 +142,16 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
     def create_recipe_ingredients(self, recipe, ingredients):
         """Метод для записи ингредиентов в рецепт."""
-
-        # result = set()
-
+        recipe_ingredients = []
         for ingredient_data in ingredients:
-            amount = ingredient_data['amount']
-            ingredient = get_object_or_404(
-                Ingredient, pk=ingredient_data['id']
+            recipe_ingredients.append(RecipeIngredient(
+                recipe=recipe,
+                ingredient=get_object_or_404(Ingredient,
+                                             pk=ingredient_data['id']),
+                amount=ingredient_data['amount'])
             )
 
-            # result.add(RecipeIngredient(
-            #     recipe=recipe, ingredient=ingredient, amount=amount
-            # ))
-            # то что ниже закомментированного потом убрать
-
-            RecipeIngredient.objects.create(
-                recipe=recipe, ingredient=ingredient, amount=amount
-            )
-
-        # RecipeIngredient.bulk_create(result)
+        RecipeIngredient.objects.bulk_create(recipe_ingredients)
 
     @transaction.atomic
     def create(self, validated_data):

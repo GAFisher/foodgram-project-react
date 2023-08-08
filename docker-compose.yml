@@ -24,9 +24,12 @@ services:
       - static:/frontend_static
 
   gateway:
-    build: ./nginx/
+    build: ./gateway/
     env_file: .env
     volumes:
       - static:/staticfiles
+    depends_on:
+      - backend
+      - frontend
     ports:
       - 8000:80
