@@ -9,17 +9,8 @@ class User(AbstractUser):
     username = models.CharField(
         max_length=150,
         unique=True,
-        blank=False,
-        null=False,
         verbose_name='Уникальный юзернейм',
         validators=(validate_username,),
-    )
-    password = models.CharField(
-        max_length=150,
-        unique=False,
-        blank=False,
-        null=False,
-        verbose_name='Пароль',
     )
     email = models.EmailField(
         max_length=254,

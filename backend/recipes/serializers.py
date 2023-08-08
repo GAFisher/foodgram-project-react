@@ -1,6 +1,7 @@
 import base64
 from django.shortcuts import get_object_or_404
 from django.core.files.base import ContentFile
+from django.db import transaction
 from rest_framework import serializers
 from .models import (
     Tag,
@@ -148,16 +149,27 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
     def create_recipe_ingredients(self, recipe, ingredients):
         """Метод для записи ингредиентов в рецепт."""
+
+        # result = set()
+
         for ingredient_data in ingredients:
             amount = ingredient_data['amount']
             ingredient = get_object_or_404(
                 Ingredient, pk=ingredient_data['id']
             )
 
+            # result.add(RecipeIngredient(
+            #     recipe=recipe, ingredient=ingredient, amount=amount
+            # ))
+            # то что ниже закомментированного потом убрать
+
             RecipeIngredient.objects.create(
                 recipe=recipe, ingredient=ingredient, amount=amount
             )
 
+        # RecipeIngredient.bulk_create(result)
+
+    @transaction.atomic
     def create(self, validated_data):
         """Метод для создания нового рецепта с ингредиентами."""
         author = self.context.get('request').user
@@ -171,6 +183,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
         return recipe
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         """Метод для обновления рецепта."""
         instance.name = validated_data.get('name', instance.name)

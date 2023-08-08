@@ -1,5 +1,6 @@
 import csv
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from foodgram.settings import BASE_DIR
 from recipes.models import Ingredient
 
@@ -12,6 +13,18 @@ class Command(BaseCommand):
     def import_ingredient(self):
         with open(CSV_DIR, 'r') as file:
             reader = csv.reader(file)
+
+            # как я понял, делать нужно так
+            #
+            # result = set()
+            #
+            # for row in reader:
+            #     result.add(Ingredient(name=row[0], measurement_unit=row[1]))
+            #
+            # Ingredient.objects.bulk_create(result)
+            #
+            # так как ты используешь сет - повторов не будет - попробуй
+
             for row in reader:
                 try:
                     obj, created = Ingredient.objects.get_or_create(
@@ -25,6 +38,7 @@ class Command(BaseCommand):
                     )
         print('Заполнение БД завершено.')
 
+    @transaction.atomic
     def handle(self, *args, **kwargs):
         print('Загрузка данных из csv в базу:')
         self.import_ingredient()

@@ -85,7 +85,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 {'message': 'Рецепт удалён из избранного.'},
                 status=status.HTTP_204_NO_CONTENT,
             )
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     @action(detail=True, methods=['post', 'delete'])
     def shopping_cart(self, request, pk=None):
@@ -119,7 +118,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 {'message': 'Рецепт удалён из списка покупок.'},
                 status=status.HTTP_204_NO_CONTENT,
             )
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     @action(detail=False, methods=['get'])
     def download_shopping_cart(self, request):
