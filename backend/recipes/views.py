@@ -50,7 +50,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = RecipeFilter
 
-
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):
             return RecipeListSerializer
@@ -62,7 +61,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=pk)
         if request.method == 'POST':
             if Favorite.objects.filter(
-                user=request.user, recipe=recipe
+                    user=request.user, recipe=recipe
             ).exists():
                 return Response(
                     {'errors': 'Рецепт уже добавлен в избранное.'},
@@ -74,7 +73,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         if request.method == 'DELETE':
             if not Favorite.objects.filter(
-                user=request.user, recipe=recipe
+                    user=request.user, recipe=recipe
             ).exists():
                 return Response(
                     {'errors': 'Рецепт не добавлен в избранное.'},
@@ -95,7 +94,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         recipe = get_object_or_404(Recipe, pk=pk)
         if request.method == 'POST':
             if ShoppingCart.objects.filter(
-                user=request.user, recipe=recipe
+                    user=request.user, recipe=recipe
             ).exists():
                 return Response(
                     {'errors': 'Рецепт уже добавлен в список покупок.'},
@@ -107,7 +106,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         if request.method == 'DELETE':
             if not ShoppingCart.objects.filter(
-                user=request.user, recipe=recipe
+                    user=request.user, recipe=recipe
             ).exists():
                 return Response(
                     {'errors': 'Рецепт не добавлен в список покупок.'},
