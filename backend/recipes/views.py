@@ -22,6 +22,7 @@ from .serializers import (
 )
 from .pagination import CustomPagination
 from .permissions import IsAuthorOrReadOnlyPermission
+from .filters import IngredientFilter, RecipeFilter
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -36,6 +37,8 @@ class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = IngredientFilter
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -45,7 +48,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     permission_classes = (IsAuthorOrReadOnlyPermission,)
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('tags',)
+    filterset_class = RecipeFilter
+
 
     def get_serializer_class(self):
         if self.action in ('list', 'retrieve'):

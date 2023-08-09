@@ -1,4 +1,4 @@
-# praktikum_new_diplom
+# Проект «Продуктовый помощник»
 
 ## Описание
 FoodGram - дипломная работа курса backend-разработки на python Яндекс Практикум. 
@@ -9,15 +9,37 @@ FoodGram - дипломная работа курса backend-разработк
 ## Установка
 Установка использует docker, поэтому детально будет описана во 2 части сдачи проекта
 
+## Регистрация новых пользователей
+1. Пользователь отправляет POST-запрос с параметрами `email`, `username`, `first_name`, `last_name` и `password` на эндпоинт `/api/users/`:
+```
+{
+    "email": "vpupkin@yandex.ru",
+    "username": "vasya.pupkin",
+    "first_name": "Вася",
+    "last_name": "Пупкин",
+    "password": "Qwerty123!"
+}
+```
+2. Пользователь отправляет POST-запрос с параметрами `email` и `password` на эндпоинт `/api/auth/token/login/`, в ответе на запрос ему приходит токен авторизации:
+```
+{
+    "email": "vpupkin@yandex.ru",
+    "password": "Qwerty123!"
+}
+```
+Пример ответа:
+```
+{
+    "auth_token": "0c2e40ef07b3e7d9a4fa03b22b90acd68192cd50"
+}
+```
+
+
 
 ## Примеры использования
 
-По  GET запросу 
-```
-http://127.0.0.1:8000/api/recipes/
-```
-
-получаем список рецептов:
+### Получить список рецептов:
+Отправьте GET-запрос на эндпоинт `/api/recipes/`. Пример ответа:
 ```
 {
     "count": 10,
@@ -35,11 +57,11 @@ http://127.0.0.1:8000/api/recipes/
                 }
             ],
             "author": {
-                "email": "g.fisher@yandex.ru",
-                "id": 3,
-                "username": "g.fisher",
-                "first_name": "Галина",
-                "last_name": "Фишер",
+                "email": "vpupkin@yandex.ru",
+                "id": 1,
+                "username": "vasya.pupkin",
+                "first_name": "Вася",
+                "last_name": "Пупкин",
                 "is_subscribed": false
             },
             "ingredients": [
@@ -89,7 +111,102 @@ http://127.0.0.1:8000/api/recipes/
         },
 ...
 ```
+### Добавление нового рецепта:
+Отправьте POST-запрос на эндпоинт `/api/recipes/`, передав:
+* Список ингредиентов: `ingredients`
+* Список id тегов: `tags`
+* Картинку, закодированную в Base64: `image`
+* Название рецепта: `name`
+* Описание рецепта: `text`
+* Время приготовления (в минутах): `cooking_time`
 
+```
+{
+    "ingredients": [
+        {
+            "id": 2190,
+            "amount": 6
+        },
+        {
+            "id": 1647,
+            "amount": 10
+        },
+        {
+            "id": 1123,
+            "amount": 10
+        }                  
+    ],
+        "tags": [
+            1,
+            2,
+            3
+    ],
+    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAgMAAABieywaAAAACVBMVEUAAAD///9fX1/S0ecCAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAACklEQVQImWNoAAAAggCByxOyYQAAAABJRU5ErkJggg==",
+    "name": "Омлет в духовке",
+    "text": "В глубокую миску вбиваем яйца, вливаем молоко, добавляем немного соли и перемешиваем все ингредиенты. Вливаем основу для омлета в форму, смазанную сливочным маслом, и отправляем в духовку.",
+    "cooking_time": 40
+}
+```
+Пример ответа:
+```
+{
+    "id": 2,
+    "tags": [
+        {
+            "id": 1,
+            "name": "Завтрак",
+            "color": "#e26c2d",
+            "slug": "breakfast"
+        },
+        {
+            "id": 2,
+            "name": "Обед",
+            "color": "#49b64e",
+            "slug": "lunch"
+        },
+        {
+            "id": 3,
+            "name": "Ужин",
+            "color": "#8775d2",
+            "slug": "dinner"
+        }
+    ],
+    "author": {
+        "email": "vpupkin@yandex.ru",
+        "id": 1,
+        "username": "vasya.pupkin",
+        "first_name": "Вася",
+        "last_name": "Пупкин",
+        "is_subscribed": false
+    },
+    "ingredients": [
+        {
+            "id": 2190,
+            "name": "яйцо",
+            "measurement_unit": "шт.",
+            "amount": 6
+        },
+        {
+            "id": 1647,
+            "name": "сливочное масло",
+            "measurement_unit": "г",
+            "amount": 10
+        },
+        {
+            "id": 1032,
+            "name": "молоко",
+            "measurement_unit": "г",
+            "amount": 300
+        }
+    ],
+    "is_favorited": false,
+    "is_in_shopping_cart": false,
+    "name": "Омлет в духовке",
+    "image": "http://127.0.0.1:8000/media/recipes/temp.png",
+    "text": "В глубокую миску вбиваем яйца, вливаем молоко, добавляем немного соли и перемешиваем все ингредиенты. Вливаем основу для омлета в форму, смазанную сливочным маслом, и отправляем в духовку.",
+    "cooking_time": "40"
+}
+```
 ## Автор
 
-[Galina Fisher](https://github.com/GAFisher)
+[Галина Фишер](https://github.com/GAFisher), студент когорты 21+ Яндекс.Практикум

@@ -109,7 +109,8 @@ class RecipeIngredient(models.Model):
         verbose_name='Количество',
         validators=[
             MinValueValidator(1, message='Значение не может быть меньше 1.'),
-            MaxValueValidator(100, message='Значение не может быть больше 1.')]
+            MaxValueValidator(1000,
+                              message='Значение не может быть больше 1000.')]
     )
 
     class Meta:

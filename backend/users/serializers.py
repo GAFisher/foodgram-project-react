@@ -60,7 +60,6 @@ class SubscriptionSerializer(UserSerializer):
             return Subscription.objects.filter(user=user, author=obj).exists()
         return False
 
-
     def get_recipes_count(self, obj):
         """Метод для получения общего количества рецептов пользователя."""
         return obj.recipes.count()
