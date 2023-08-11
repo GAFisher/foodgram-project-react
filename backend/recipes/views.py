@@ -1,28 +1,18 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, status
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import (
-    Tag,
-    Ingredient,
-    Recipe,
-    RecipeIngredient,
-    Favorite,
-    ShoppingCart,
-)
-from .serializers import (
-    TagSerializer,
-    IngredientSerializer,
-    RecipeListSerializer,
-    RecipeCreateSerializer,
-    FavoriteRecipeSerializer,
-)
+from .filters import IngredientFilter, RecipeFilter
+from .models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                     ShoppingCart, Tag)
 from .pagination import CustomPagination
 from .permissions import IsAuthorOrReadOnlyPermission
-from .filters import IngredientFilter, RecipeFilter
+from .serializers import (FavoriteRecipeSerializer, IngredientSerializer,
+                          RecipeCreateSerializer, RecipeListSerializer,
+                          TagSerializer)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):

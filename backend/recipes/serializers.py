@@ -1,17 +1,13 @@
 import base64
-from django.shortcuts import get_object_or_404
+
 from django.core.files.base import ContentFile
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
-from .models import (
-    Tag,
-    Ingredient,
-    Recipe,
-    RecipeIngredient,
-    Favorite,
-    ShoppingCart,
-)
 from users.serializers import CustomUserSerializer
+
+from .models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                     ShoppingCart, Tag)
 
 
 class TagSerializer(serializers.ModelSerializer):
