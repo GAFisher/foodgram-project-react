@@ -6,8 +6,54 @@ FoodGram - дипломная работа курса backend-разработк
 После регистрации и авторизации, пользователь может подписаться на понравившихся авторов, составлять список избранных рецептов, загружать или составлять список покупок. 
 Неавторизованные пользователи могут просто просматривать рецепты. 
 
-## Установка
-Установка использует docker, поэтому детально будет описана во 2 части сдачи проекта
+Тестовый сервер: `flavorfinder.sytes.net`. Логин: `admin`. Пароль:`Admin123`
+
+## Как запустить проект
+1. Клонируйте репозиторий.
+2. Создайте и активируйте виртуальное окружение:
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+3. Создайте файл .env с переменными окружения внутри директории `foodgram` со следующим содержимым:
+```
+SECRET_KEY=<Cекретный ключ из файла settings.py>
+DB_ENGINE=<Указываем, что работаем с postgresql>
+POSTGRES_USER=<Логин для подключения к базе данных>
+POSTGRES_PASSWORD=<Пароль для подключения к БД>
+POSTGRES_DB=<Имя базы данных>
+DB_HOST=<Название сервиса (контейнера)>
+DB_PORT=<Порт для подключения к БД>
+```
+4. Запустите docker-compose командой `docker-compose up -d --build`.
+5. Выполните по очереди команды:
+```
+docker-compose exec web python manage.py makemigrations
+docker-compose exec web python manage.py migrate
+```
+- Выполните команду для заполнения базы данными:
+```
+sudo docker compose exec backend python manage.py import_csv
+```
+- Создайте суперпользователя:
+```
+sudo docker compose exec backend python manage.py createsuperuser
+```
+- Выполните команду для сбора статических файлов:
+```
+sudo docker compose exec backend manage.py collectstatic --no-input
+```
+- Создайте дамп (резервную копию) базы:
+```
+sudo docker compose exec backend python manage.py dumpdata > fixtures.json 
+```
+Проект будет доступен по адресам:
+- Главная страница: `http://<ip-адрес>/`
+- Документация проекта: `http://<ip-адрес>/api/docs/`
+- API проекта: `http://<ip-адрес>/api/`
+- Admin-зона: `http://<ip-адрес>/admin/`
+
+Теги вручную добавляются в админ-зоне в модель Tags.
 
 ## Регистрация новых пользователей
 1. Пользователь отправляет POST-запрос с параметрами `email`, `username`, `first_name`, `last_name` и `password` на эндпоинт `/api/users/`:
