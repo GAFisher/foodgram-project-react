@@ -66,8 +66,8 @@ class RecipeListSerializer(serializers.ModelSerializer):
     image = Base64ImageField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
-    # publication_date = serializers.DateTimeField(source='pub_date',
-    #                                              read_only=True)
+    publication_date = serializers.DateTimeField(source='pub_date',
+                                                 read_only=True)
 
     class Meta:
         model = Recipe
@@ -75,7 +75,7 @@ class RecipeListSerializer(serializers.ModelSerializer):
             'id',
             'tags',
             'author',
-            # 'publication_date',
+            'publication_date',
             'ingredients',
             'is_favorited',
             'is_in_shopping_cart',
