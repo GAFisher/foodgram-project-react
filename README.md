@@ -9,27 +9,22 @@ FoodGram - дипломная работа курса backend-разработк
 Тестовый сервер: `flavorfinder.sytes.net`. Логин: `admin`. Пароль:`Admin123`
 
 ## Как запустить проект
-1. Клонируйте репозиторий.
+1. Клонируйте репозиторий на локальную машину.
 2. Создайте и активируйте виртуальное окружение:
 ```
 python3 -m venv venv
 source venv/bin/activate
 ```
-3. Создайте файл .env с переменными окружения внутри директории `foodgram` со следующим содержимым:
-```
-SECRET_KEY=<Cекретный ключ из файла settings.py>
-DB_ENGINE=<Указываем, что работаем с postgresql>
-POSTGRES_USER=<Логин для подключения к базе данных>
-POSTGRES_PASSWORD=<Пароль для подключения к БД>
-POSTGRES_DB=<Имя базы данных>
-DB_HOST=<Название сервиса (контейнера)>
-DB_PORT=<Порт для подключения к БД>
-```
-4. Запустите docker-compose командой `docker-compose up -d --build`.
+3. Добавьте в Secrets GitHub Actions переменные окружения:
+- `DOCKER_USERNAME` и `DOCKER_PASSWORD` - для загрузки и скачивания образа с Docker Hub;
+- `HOST`, `USER`, `SSH_KEY`, `SSH_PASSPHRASE` - для подключения к удалённому серверу;
+- `DB_ENGINE`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DB_HOST` и `DB_PORT` - для работы базы данных;
+4. Скопируйте файл `docker-compose.yaml` на сервер.
+5. Запустите docker-compose командой `docker-compose up -d --build`.
 5. Выполните по очереди команды:
 ```
-docker-compose exec web python manage.py makemigrations
-docker-compose exec web python manage.py migrate
+sudo docker compose exec backend python manage.py makemigrations
+sudo docker compose exec backend python manage.py migrate
 ```
 - Выполните команду для заполнения базы данными:
 ```
@@ -41,7 +36,7 @@ sudo docker compose exec backend python manage.py createsuperuser
 ```
 - Выполните команду для сбора статических файлов:
 ```
-sudo docker compose exec backend manage.py collectstatic --no-input
+sudo docker compose exec backend python manage.py collectstatic --no-input
 ```
 - Создайте дамп (резервную копию) базы:
 ```
@@ -79,8 +74,6 @@ sudo docker compose exec backend python manage.py dumpdata > fixtures.json
     "auth_token": "0c2e40ef07b3e7d9a4fa03b22b90acd68192cd50"
 }
 ```
-
-
 
 ## Примеры использования
 
