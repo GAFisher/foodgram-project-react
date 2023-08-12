@@ -8,19 +8,19 @@ volumes:
 services:
   db:
     image: postgres:13
-    env_file: backend/foodgram/.env
+    env_file: .env
     volumes:
       - pg_data:/var/lib/postgresql/data
   backend:
     image: galinafisher/foodgram-project-react-backend:latest
-    env_file: backend/foodgram/.env
+    env_file: .env
     volumes:
       - static_value:/backend_static
       - media_value:/app/media/
     depends_on:
       - db
   frontend:
-    env_file: backend/foodgram/.env
+    env_file: .env
     image: galinafisher/foodgram-project-react-frontend:latest
     command: cp -r /app/build/. /frontend_static/
     volumes:
@@ -28,7 +28,7 @@ services:
 
   gateway:
     image: galinafisher/foodgram-project-react-gateway:latest
-    env_file: backend/foodgram/.env
+    env_file: .env
     volumes:
       - static_value:/staticfiles
       - media_value:/media/
