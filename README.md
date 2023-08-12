@@ -10,12 +10,7 @@ FoodGram - дипломная работа курса backend-разработк
 
 ## Как запустить проект
 1. Клонируйте репозиторий на локальную машину.
-2. Создайте и активируйте виртуальное окружение:
-```
-python3 -m venv venv
-source venv/bin/activate
-```
-3. Добавьте в Secrets GitHub Actions переменные окружения:
+2. Добавьте в Secrets GitHub Actions переменные окружения:
 - `DOCKER_USERNAME` и `DOCKER_PASSWORD` - для загрузки и скачивания образа с Docker Hub;
 - `HOST`, `USER`, `SSH_KEY`, `SSH_PASSPHRASE` - для подключения к удалённому серверу;
 - `DB_ENGINE`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DB_HOST` и `DB_PORT` - для работы базы данных;
