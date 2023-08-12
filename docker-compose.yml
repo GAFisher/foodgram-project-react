@@ -17,8 +17,7 @@ services:
     volumes:
       - static_value:/backend_static
       - media_value:/app/media/
-    depends_on:
-      - db
+
   frontend:
     env_file: .env
     image: galinafisher/foodgram-project-react-frontend:latest
@@ -32,7 +31,5 @@ services:
     volumes:
       - static_value:/staticfiles/
       - media_value:/media/
-    depends_on:
-      - frontend
     ports:
       - 8000:80
