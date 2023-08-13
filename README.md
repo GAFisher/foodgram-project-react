@@ -9,43 +9,17 @@ FoodGram - дипломная работа курса backend-разработк
 Тестовый сервер: `flavorfinder.sytes.net`. Логин: `admin`. Пароль:`Admin123`
 
 ## Как запустить проект
-1. Клонируйте репозиторий на локальную машину.
-2. Создайте и активируйте виртуальное окружение:
+1. Скопируйте файл `docker-compose.yaml` на сервер.
+2. Создайте файл `.env` и добавьте переменные и их значения:
 ```
-python3 -m venv venv
-source venv/bin/activate
-```
-3. Установите зависимости из файла requirements.txt:
-```
-python3 -m pip install --upgrade pip
-pip install -r requirements.txt
-```
-4. Добавьте в Secrets GitHub Actions переменные окружения:
-- `DOCKER_USERNAME` и `DOCKER_PASSWORD` - для загрузки и скачивания образа с Docker Hub;
-- `HOST`, `USER`, `SSH_KEY`, `SSH_PASSPHRASE` - для подключения к удалённому серверу;
-- `DB_ENGINE`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DB_HOST` и `DB_PORT` - для работы базы данных;
-5. Скопируйте файл `docker-compose.yaml` на сервер.
-6. Запустите docker-compose командой `docker-compose up -d --build`.
-7. Выполните по очереди команды:
-```
-sudo docker compose exec backend python manage.py makemigrations
-sudo docker compose exec backend python manage.py migrate
-```
-- Выполните команду для заполнения базы данными:
-```
-sudo docker compose exec backend python manage.py import_csv
-```
-- Создайте суперпользователя:
-```
-sudo docker compose exec backend python manage.py createsuperuser
-```
-- Выполните команду для сбора статических файлов:
-```
-sudo docker compose exec backend python manage.py collectstatic --no-input
-```
-- Создайте дамп (резервную копию) базы:
-```
-sudo docker compose exec backend python manage.py dumpdata > fixtures.json 
+SECRET_KEY=<Cекретный ключ из файла settings.py>
+DB_ENGINE=<Указываем, что работаем с postgresql>
+DB_NAME=<Имя базы данных>
+POSTGRES_USER=<Логин для подключения к базе данных>
+POSTGRES_PASSWORD=<Пароль для подключения к БД>
+POSTGRES_DB=<Имя базы данных>
+DB_HOST=<Название сервиса (контейнера)>
+DB_PORT=<Порт для подключения к БД>
 ```
 Проект будет доступен по адресам:
 - Главная страница: `http://<ip-адрес>/`
