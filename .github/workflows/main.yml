@@ -96,11 +96,12 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: |            
-            sudo docker compose -f docker-compose.yml pull
-            sudo docker compose -f docker-compose.yml down
-            sudo docker compose -f docker-compose.yml up -d
-            sudo docker compose -f docker-compose.yml exec backend python manage.py makemigrations
-            sudo docker compose -f docker-compose.yml exec backend python manage.py migrate
-            sudo docker compose -f docker-compose.yml exec backend python manage.py collectstatic
-            sudo docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /backend_static/static/
+          script: |
+            sudo docker compose down -v
+            sudo docker compose up -d
+            sudo docker compose exec backend python manage.py makemigrations users
+            sudo docker compose exec backend python manage.py makemigrations recipes
+            sudo docker compose exec backend python manage.py migrate
+            sudo docker compose exec backend python manage.py collectstatic
+            sudo docker compose exec backend cp -r /app/collected_static/. /backend_static/static/
+            sudo docker compose exec backend python manage.py import_csv
