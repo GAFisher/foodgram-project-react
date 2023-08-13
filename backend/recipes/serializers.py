@@ -59,8 +59,7 @@ class RecipeListSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     ingredients = ShortlistIngredientSerializer(many=True,
                                                 source='recipe_ingredients')
-    # image = Base64ImageField()
-    image = serializers.CharField(source='image.url')
+    image = Base64ImageField()
     is_favorited = serializers.SerializerMethodField()
     is_in_shopping_cart = serializers.SerializerMethodField()
     publication_date = serializers.DateTimeField(source='pub_date',
