@@ -1,5 +1,5 @@
 # Проект «Продуктовый помощник»
-
+![example event parameter](https://github.com/GAFisher/foodgram-project-react/actions/workflows/main.yml/badge.svg?event=push)
 ## Описание
 FoodGram - дипломная работа курса backend-разработки на python Яндекс Практикум. 
 Сервис служит для обмена рецептами и их публикации. 
@@ -10,13 +10,23 @@ FoodGram - дипломная работа курса backend-разработк
 
 ## Как запустить проект
 1. Клонируйте репозиторий на локальную машину.
-2. Добавьте в Secrets GitHub Actions переменные окружения:
+2. Создайте и активируйте виртуальное окружение:
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+3. Установите зависимости из файла requirements.txt:
+```
+python3 -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+4. Добавьте в Secrets GitHub Actions переменные окружения:
 - `DOCKER_USERNAME` и `DOCKER_PASSWORD` - для загрузки и скачивания образа с Docker Hub;
 - `HOST`, `USER`, `SSH_KEY`, `SSH_PASSPHRASE` - для подключения к удалённому серверу;
 - `DB_ENGINE`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `DB_HOST` и `DB_PORT` - для работы базы данных;
-4. Скопируйте файл `docker-compose.yaml` на сервер.
-5. Запустите docker-compose командой `docker-compose up -d --build`.
-5. Выполните по очереди команды:
+5. Скопируйте файл `docker-compose.yaml` на сервер.
+6. Запустите docker-compose командой `docker-compose up -d --build`.
+7. Выполните по очереди команды:
 ```
 sudo docker compose exec backend python manage.py makemigrations
 sudo docker compose exec backend python manage.py migrate
@@ -71,7 +81,6 @@ sudo docker compose exec backend python manage.py dumpdata > fixtures.json
 ```
 
 ## Примеры использования
-
 ### Получить список рецептов:
 Отправьте GET-запрос на эндпоинт `/api/recipes/`. Пример ответа:
 ```
@@ -242,5 +251,4 @@ sudo docker compose exec backend python manage.py dumpdata > fixtures.json
 }
 ```
 ## Автор
-
 [Галина Фишер](https://github.com/GAFisher), студент когорты 21+ Яндекс.Практикум
