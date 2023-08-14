@@ -14,7 +14,8 @@ services:
       - pg_data:/var/lib/postgresql/data
 
   backend:
-    build: ./backend/
+    container_name: backend
+    image: galinafisher/foodgram-project-react-backend:latest
     volumes:
       - static:/backend_static
       - media:/backend_media
@@ -23,7 +24,8 @@ services:
     env_file: .env
 
   frontend:
-    build: ./frontend/
+    container_name: frontend
+    image: galinafisher/foodgram-project-react-frontend:latest
     env_file: .env
     command: cp -r /app/build/. /frontend_static/
     volumes:
@@ -32,7 +34,8 @@ services:
       - db
 
   gateway:
-    build: ./gateway/
+    container_name: gateway
+    image: galinafisher/foodgram-project-react-gateway:latest
     ports:
       - 8000:80
     volumes:
