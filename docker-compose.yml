@@ -15,8 +15,8 @@ services:
 
   backend:
     container_name: backend
-    build: ./backend/
-#    image: galinafisher/foodgram-project-react-backend:latest
+#    build: ./backend/
+    image: galinafisher/foodgram-project-react-backend:latest
     volumes:
       - static:/backend_static
       - media:/app/media/
@@ -26,8 +26,8 @@ services:
 
   frontend:
     container_name: frontend
-#    image: galinafisher/foodgram-project-react-frontend:latest
-    build: ./frontend/
+    image: galinafisher/foodgram-project-react-frontend:latest
+#    build: ./frontend/
     env_file: .env
     command: cp -r /app/build/. /frontend_static/
     volumes:
@@ -37,8 +37,8 @@ services:
 
   gateway:
     container_name: gateway
-    build: ./gateway/
-#    image: galinafisher/foodgram-project-react-gateway:latest
+#    build: ./gateway/
+    image: galinafisher/foodgram-project-react-gateway:latest
     ports:
       - 8000:80
     volumes:
